@@ -1,14 +1,19 @@
+import ast
+import json
+
 import requests
-import os
-from FackUA import my_fake_ua
+from fake_useragent import UserAgent
 
 
-header = {"User-Agent": my_fake_ua.random}
-url = r'https://fund.eastmoney.com/Data/Fund_JJJZ_Data.aspx?&page=1'
-res = requests.get(url, headers = header)
-content = res.text
+def get_content():
+    url = r'https://fund.eastmoney.com/Data/Fund_JJJZ_Data.aspx?&page=1'
+    header = {'User-Agent': UserAgent().random}
+    requests.packages.urllib3.disable_warnings()
+    res = requests.get(url, headers=header, verify=False).text
+    return res
 
-with open('result.txt', 'w', encoding = 'utf-8') as f:
-    f.write(content)
 
-
+if __name__ == '__main__':
+    content = get_content()
+    if content:
+        ...
